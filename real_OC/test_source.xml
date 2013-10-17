@@ -1,89 +1,12 @@
-import urllib2, urllib
-
-"""
-	Returns the source code of a web page
-"""
-def get_page(url, post_data=''):
-    try:
-        return urllib2.urlopen(url, urllib.urlencode(post_data)).read()
-    except:
-        return ''
-
-
-"""
-	Returns all matches of a BUILDING in a given SEMESTER
-	equivalent content to viewing the url at:
-	http://osoc.berkeley.edu/OSOC/osoc?p_term={{SEMESTER}}&p_bldg={{BUILDING}}&p_print_flag=Y
-"""
-def get_building_source(semester, building):
-	#semester should be two chars: SP, SU, or FL
-	#one path for all requests
-	path = 'http://osoc.berkeley.edu/OSOC/osoc'
-	post_data = [('p_term', semester), ('p_print_flag', 'Y'), ('p_bldg', building)]
-	source = get_page(path, post_data)
-	return source
-
-
-"""
-	Replaces spaces with '+'. Needed for query parameter passing.
-"""
-def format(abbr):
-	#Need to send query paramaters with + instead of ' '
-	#
-	#For all items in a list
-	#	If there are spaces separating words
-	#		replace the space with a +
-	abbr = abbr.replace(' ', '+')
-
-def store_room():
-	#
-	#
-
-def store_all_rooms(semester):
-	full_name, abbreviations = building_lists()
-	format(abbr)
-	for abbr in abbreviations:
-		source = get_building_source(semester, abbr)
-		#For all rooms:
-		#	Find all instances of a room from the source.
-		#	Create a room object from these instances
-		#	store room object in database
-
-
-"""
-	Returns 2 lists of building names: full names and abbreviations
-
-	full_name, abbr = building_lists()
-"""
-def building_lists():
-    source = get_page("http://registrar.berkeley.edu/Default.aspx?PageID=bldgabb.html")
-    #make 2 lists
-    full_name = []
-    abbr = []
-
-    #look for tags starting with <td valign
-    target = "<td valign"
-    target_index = source.find(target)
-    content = source[target_index:]
-
-    #extract building names
-    while target_index != -1:
-        word_start = content.find(">") + 1
-        word = content[word_start:content.find("</td>")]
-        if word.isupper() or word == "FOOTHILL 1" or word == "FOOTHILL 4":
-            abbr.append(word)
-        else:
-            full_name.append(word)
-        content = content[content.find("/td"):]
-        target_index = content.find(target)
-        content = content[target_index:]
-    full_name.append("Li Ka Shing Center")
-    abbr.append("LI KA SHING")
-    return full_name, abbr
-
-file = str("""<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+<TITLE>UCB Online Schedule of Classes: Search Results</TITLE>
+<STYLE type="text/css"> A.nounderline A:link{background:white; color:white; text-decoration:none} A:hover, .button:hover, label:hover {background:#C0C0C0; color:#036; text-decoration:none} .button { background: transparent; font-family: Helvetica,Arial,sans-serif; text-decoration: underline; border: 0; cursor: pointer; margin: 0; padding: 0;} .b {border-bottom: 0px #336699; color: #336699;} .r {border-bottom: 0px #FF0000; color: #FF0000;} .buttonrender {font-size: 80%; font-weight: bold;} .bookbtn {font-size: 100%; font-weight: normal; font-family: monospace;} .printbtn {font-size: 70%; font-weight: normal;} .infobtn {font-size: 100%; font-weight: bold;} .listbtn {color: #336699; font-size: 10px; font-weight: bold; line-height: 13px; text-decoration: none;} .coursetitle {font-family: monospace; font-size: 13px;} </STYLE><SCRIPT language=JavaScript src="/osoc/jquery-1.5.min.js" type="text/javascript"></SCRIPT>
+</HEAD>
+<br>
 <FONT FACE="Helvetica, Arial, sans-serif" SIZE="1">
 10-OCT-13, Spring 2014
 <TABLE  BORDER="0" CELLSPACING="0" CELLPADDING="0">
@@ -354,4 +277,4 @@ file = str("""<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 <TR>
 <TD VALIGN="TOP" ALIGN="LEFT"><TD VALIGN="TOP" ALIGN="LEFT"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4">25210&nbsp;&nbsp;</TD><TD VALIGN="TOP" ALIGN="LEFT"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4">P&nbsp;&nbsp;137B</TD><TD VALIGN="TOP"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4">001&nbsp;LEC&nbsp;&nbsp;</TD><TD VALIGN="TOP" NOWRAP><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4">TuTh 930-11A&nbsp;&nbsp;</TD><TD VALIGN="TOP"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4"> 521 CORY&nbsp;&nbsp;</TD><TD VALIGN="TOP"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4">Introduction to Electric Power Systems</TD><TD VALIGN="TOP"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4">4</TD><TD VALIGN="TOP"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4">VON MEIER, A</TD><TD VALIGN="TOP"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4">10</TD><TD VALIGN="TOP"><FONT FACE="Helvetica, Arial, sans-serif" SIZE="-4"></TD></TD>
 </TR>
-<TR>""")
+<TR>
