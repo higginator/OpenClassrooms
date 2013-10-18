@@ -10,10 +10,11 @@ class Room(models.Model):
 
 class TimeSlot(models.Model):
 	time = models.CharField(max_length=10)
+	day = models.CharField(max_length=15)
 	room = models.ManyToManyField(Room)
 
 	def __unicode__(self):
-		return self.time
+		return self.day + ' ' + self.time
 
 	class Meta:
 		ordering = ('time',)
