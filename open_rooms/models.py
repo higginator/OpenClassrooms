@@ -18,5 +18,3 @@ class TimeSlot(models.Model):
 
 	class Meta:
 		ordering = ('time',)
-
-#do we need MondayTimeSlot, TuesdayTimeSlot, or...?

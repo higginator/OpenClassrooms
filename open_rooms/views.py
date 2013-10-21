@@ -1,4 +1,3 @@
-# Create your views here.
 from open_rooms.models import *
 from open_rooms.helpers import *
 from datetime import *
@@ -80,19 +79,47 @@ def get_day_number(request, input_day, num):
 
 def get_building_time_day(request, bldg, input_time, input_day):
 	desired_rooms = []
-	rooms = Room.objects.filter(building=bldg)
-	for room in rooms:
-		for time in room.timeslot_set.all():
-			if time.time == input_time and time.day == input_day:
+	time_slots = TimeSlot.objects.filter(time=input_time, day=input_day)
+	for time in time_slots:
+		for room in time.room.all():
+			if room.building == bldg:
 				desired_rooms.append(room)
 	return desired_rooms
 
 def get_building_time_number(request, bldg, input_time, num):
+	desired_rooms = []
+	time_slots = TimeSlot.objects.filter(time=input_time)
+	for time in time_slots:
+		for room in time.room.all():
+			if room.building == bldg and room.number == num:
+				desired_rooms.append(room)
+	return desired_rooms
 
 def get_building_day_number(request, bldg, input_day, num):
+	desired_rooms = []
+	time_slots = TimeSlot.objects.filter(day=input_day)
+	for time in time_slots:
+		for room in time.room.all():
+			if room.building == bldg and room.number == num:
+				desired_rooms.append(room)
+	return desired_rooms
 
 def get_day_time_number(request, input_day, input_time, num):
+	desired_rooms = []
+	time_slots = TimeSlot.objects.filter(time=input_time, day=input_day)
+	for time in time_slots:
+		for room in time.room.all():
+			if room.number == num:
+				desired_rooms.append(room)
+	return desired_rooms
 
 #QUADRUPLE INPUT
 
 def get_building_time_day_number(request, bldg, input_time, input_day, num):
+	desired_rooms = []
+	time_slots = TimeSlot.objects.filter(time=input_time, day=input_day)
+	for time in time_slots:
+		for room in time.room.all():
+			if room.building == bldg and room.number == num:
+				desired_rooms.append(room)
+	return desired_rooms
