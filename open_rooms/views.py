@@ -5,21 +5,21 @@ from datetime import *
 #Default to input of TODAY if no day input is provided by user
 #SINGLE INPUT
 
-def get_building(request, bldg):
+def get_building(bldg):
 	return Room.objects.filter(building=bldg)
 
-def get_time(request, input_time):
+def get_time(input_time):
 	today = convert_to_day(datetime.today().weekday())
 	return TimeSlot.objects.filter(time=input_time,day=today)
 
-def get_day(request, input_day):
+def get_day(input_day):
 	desired_rooms = []
 	time_slots = TimeSlot.objects.filter(day=input_day)
 	for time in time_slots:
 		desired_rooms.extend(time.room.all())
 	return desired_rooms
 
-def get_number(request, num):
+def get_number(num):
 	desired_rooms = []
 	today = convert_to_day(datetime.today().weekday())
 	time_slots = TimeSlot.objects.filter(day=today)
@@ -31,10 +31,10 @@ def get_number(request, num):
 
 #DOUBLE INPUT
 
-def get_time_day(request,input_time, input_day):
+def get_time_day(input_time, input_day):
 	return TimeSlot.objects.filter(time=input_time, day=input_day)
 
-def get_building_day(request, bldg, input_day):
+def get_building_day(bldg, input_day):
 	desired_rooms = []
 	time_slots = TimeSlot.objects.filter(day=input_day)
 	for time in time_slots:
@@ -43,7 +43,7 @@ def get_building_day(request, bldg, input_day):
 				desired_rooms.append(bldg)
 	return desired_rooms
 
-def get_building_time(request, bldg, input_time):
+def get_building_time(bldg, input_time):
 	desired_rooms = []
 	today = convert_to_day(datetime.today().weekday())
 	rooms = Room.objects.filter(building=bldg)
@@ -53,10 +53,10 @@ def get_building_time(request, bldg, input_time):
 				desired_rooms.append(room)
 	return desired_rooms
 
-def get_building_number(request, bldg, num):
+def get_building_number(bldg, num):
 	return Room.objects.filter(building=bldg, number=num)
 
-def get_time_number(request, input_time, num):
+def get_time_number(input_time, num):
 	desired_rooms = []
 	today = convert_to_day(datetime.today().weekday())
 	time_slots = TimeSlot.objects.filter(time=input_time, day=today)
@@ -66,7 +66,7 @@ def get_time_number(request, input_time, num):
 				desired_rooms.append(room)
 	return desired_rooms
 
-def get_day_number(request, input_day, num):
+def get_day_number(input_day, num):
 	desired_rooms = []
 	time_slots = TimeSlot.objects.filter(day=input_day)
 	for time in time_slots:
@@ -77,7 +77,7 @@ def get_day_number(request, input_day, num):
 
 #TRIPLE INPUT
 
-def get_building_time_day(request, bldg, input_time, input_day):
+def get_building_time_day(bldg, input_time, input_day):
 	desired_rooms = []
 	time_slots = TimeSlot.objects.filter(time=input_time, day=input_day)
 	for time in time_slots:
@@ -86,7 +86,7 @@ def get_building_time_day(request, bldg, input_time, input_day):
 				desired_rooms.append(room)
 	return desired_rooms
 
-def get_building_time_number(request, bldg, input_time, num):
+def get_building_time_number(bldg, input_time, num):
 	desired_rooms = []
 	time_slots = TimeSlot.objects.filter(time=input_time)
 	for time in time_slots:
@@ -95,7 +95,7 @@ def get_building_time_number(request, bldg, input_time, num):
 				desired_rooms.append(room)
 	return desired_rooms
 
-def get_building_day_number(request, bldg, input_day, num):
+def get_building_day_number(bldg, input_day, num):
 	desired_rooms = []
 	time_slots = TimeSlot.objects.filter(day=input_day)
 	for time in time_slots:
@@ -104,7 +104,7 @@ def get_building_day_number(request, bldg, input_day, num):
 				desired_rooms.append(room)
 	return desired_rooms
 
-def get_day_time_number(request, input_day, input_time, num):
+def get_day_time_number(input_day, input_time, num):
 	desired_rooms = []
 	time_slots = TimeSlot.objects.filter(time=input_time, day=input_day)
 	for time in time_slots:
@@ -115,7 +115,7 @@ def get_day_time_number(request, input_day, input_time, num):
 
 #QUADRUPLE INPUT
 
-def get_building_time_day_number(request, bldg, input_time, input_day, num):
+def get_building_time_day_number(bldg, input_time, input_day, num):
 	desired_rooms = []
 	time_slots = TimeSlot.objects.filter(time=input_time, day=input_day)
 	for time in time_slots:

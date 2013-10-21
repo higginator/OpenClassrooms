@@ -1,4 +1,71 @@
 import urllib2, urllib
+from open_rooms.views import *
+
+def set_building(errors, form):
+	if 'building' in errors:
+		bldg = False
+	else:
+		bldg = form.cleaned_data['building']
+
+def set_num(errors, form):
+	if 'number' in errors:
+		num = False
+	else:
+		num = form.cleaned_data['number']
+	return num
+
+def set_time(errors, form):
+	if 'time' in errors:
+		time = False
+	else:
+		time = form.cleaned_data['time']
+	return time
+
+def set_day(errors, form):
+	if 'day' in errors:
+		day = False
+	else:
+		day = form.cleaned_data['day']
+	return day
+
+def determine_request(bldg, time, day, num):
+	#Quadruple Input
+	if bldg and time and day and num:
+		return get_building_time_day_number(bldg, time, day, num)
+	#Triple Input
+	elif bldg and time and day:
+		return get_building_time_day(bldg, time, day)
+	elif bldg and time and num:
+		return get_building_time_number(bldg, time, num)
+	elif bldg and day and num:
+		return get_building_day_number(bldg, day, num)
+	elif time and day and num:
+		return get_day_time_number(day, time, num)
+	#Double Input
+	elif time and day:
+		return get_time_day(time, day)
+	elif bldg and day:
+		return get_building_day(bldg, day)
+	elif bldg and time:
+		return get_building_time(bldg, time)
+	elif bldg and num:
+		return get_building_number(bldg, num)
+	elif time and num:
+		return get_time_number(time, num)
+	elif day and num:
+		return get_day_number(day, num)
+	#Single Input
+	elif bldg:
+		return get_building(bldg)
+	elif time:
+		return get_time(time)
+	elif day:
+		return get_day(day)
+	elif num:
+		return get_number(num)
+	#else
+		#throw error
+
 
 """
 	Returns the source code of a web page
@@ -35,9 +102,9 @@ def format(abbr):
 	#		replace the space with a +
 	abbr = abbr.replace(' ', '+')
 
-def store_room():
-	#
-	#
+#def store_room():
+#	#
+#	#
 
 def store_all_rooms(semester):
 	full_name, abbreviations = building_lists()
