@@ -15,7 +15,6 @@ def home_page(request):
 	if request.method == 'POST':
 		form = SearchForm(request.POST)
 		errors = form.errors
-		return HttpResponse('BREAK')
 		bldg = set_building(errors, form)
 		num = set_num(errors, form)
 		time = set_time(errors, form)

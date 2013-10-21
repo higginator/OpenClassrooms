@@ -6,6 +6,7 @@ def set_building(errors, form):
 		bldg = False
 	else:
 		bldg = form.cleaned_data['building']
+	return bldg
 
 def set_num(errors, form):
 	if 'number' in errors:

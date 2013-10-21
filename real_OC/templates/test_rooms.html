@@ -1,5 +1,5 @@
 <ul>
 	{% for room in rooms %}
-		<li> {{ room }} </li>
+		<li> {{ room }} -- {{ room.timeslot_set.all}} </li>
 	{% endfor %}
 </ul>

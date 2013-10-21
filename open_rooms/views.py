@@ -62,7 +62,7 @@ def get_time_number(input_time, num):
 	time_slots = TimeSlot.objects.filter(time=input_time, day=today)
 	for time in time_slots:
 		for room in time.room.all():
-			if room.building == bldg and room.number == num:
+			if room.number == num:
 				desired_rooms.append(room)
 	return desired_rooms
 

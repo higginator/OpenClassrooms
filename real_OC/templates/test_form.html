@@ -4,7 +4,7 @@
 		<meta charset='utf-8'>
 	</head>
 	<body>
-		<form action='/wheredoesthisgo/' method='post'>{% csrf_token %}
+		<form action='/home/' method='post'>{% csrf_token %}
 			{{ form.as_table }}
 			<input type='submit' value='Bang!'>
 		</form>
