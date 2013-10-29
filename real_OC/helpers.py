@@ -78,6 +78,62 @@ def get_page(url, post_data=''):
         return ''
 
 
+def add_to_db(semester, bldg):
+	building = get_building_source(semester, bldg)
+	soup = BeautifulSoup(building)
+	tags = get_necessary_tags(soup)
+	room_to_associations = separate_into_rows(tags)
+	for row in room_to_associations:
+		day_and_hour_text = strip_building(room_to_associations[row][3].contents[0])
+		room_text = strip_building(room_to_associations[row][4].contents[0])
+		room_number, room_building = room.split(' ', 1)
+		room = create_room(room_number, room_building)
+		create_timeslots(day_and_hour_text, room)
+
+def create_room(room_number, room_building):
+	if Room.objects.filter(building=room_building, number=room_number):
+		pass
+	else:
+		Room(building=room_building, number=room_number).save()
+	return Room.objects.filter(building=room_building, number=room_number)
+
+def create_timeslots(day_and_hour_text, room):
+	#parse day_and_hour_text
+	#create timeslot
+	#if TimeSlot.objects.filter(time=time, day=day):
+	#	TimeSlot.objects.filter(time=time, day=day)[0].room.add(room)
+	#associate room with the timeslot
+
+def get_necessary_tags(soup):
+	tags = []
+	for tag in soup.find_all('font'):
+		if tag['size'] == '-4':
+			tags.append(tag)
+	for tag in tags:
+		if tag.b:
+			tags.remove(tag)
+		else:
+			pass
+	return tags
+
+def separate_into_rows(tags_list):
+	room_to_associations = {}
+	j = 0
+	z = 0
+	for tag in tags:
+		if j in room_to_associations:
+			room_to_associations[j].append(tag)
+		else:
+			room_to_associations[j] = [tag]
+		z += 1
+		if z == 10:
+			j += 1
+			z = 0
+	return room_to_associations
+
+def strip_building(content):
+	return content.strip().encode('ascii')
+
 """
 	Returns all matches of a BUILDING in a given SEMESTER
 	equivalent content to viewing the url at:
