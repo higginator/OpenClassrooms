@@ -99,10 +99,24 @@ def create_room(room_number, room_building):
 
 def create_timeslots(day_and_hour_text, room):
 	#parse day_and_hour_text
+	times = parse_time(day_and_hour_text)
 	#create timeslot
-	#if TimeSlot.objects.filter(time=time, day=day):
-	#	TimeSlot.objects.filter(time=time, day=day)[0].room.add(room)
+	for day in times.keys():
+		for time in times[day]:
+			if TimeSlot.objects.filter(day=day, time=time, ap=time[-1]):
+				pass
+			else:
+				TimeSlot(day=day,time=time,ap=time[-1]).save()
 	#associate room with the timeslot
+	
+
+def parse_time(day_and_hour_text):
+	#output dictionary mapping key 'day' to a list of half hours and if AM or PM
+	# >>> parse_time('M 1-2P')
+	# {'M' : [1P, 1:30P]}
+	# >>> parse_time('MTuWTh 11:30-1P')
+	# {'M': [11A, 11:30A, 12P, 12:30P], 'W': [11A, 11:30A, 12P, 12:30P],  
+	#  'Tu': [11A, 11:30A, 12P, 12:30P], 'Th': [11A, 11:30A, 12P, 12:30]P}
 
 def get_necessary_tags(soup):
 	tags = []
