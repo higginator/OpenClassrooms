@@ -1,4 +1,5 @@
 import urllib2, urllib
+from bs4 import BeautifulSoup
 from open_rooms.views import *
 
 all_days = {'M': 'Monday',
@@ -92,7 +93,7 @@ def add_to_db(semester, bldg):
 	for row in room_to_associations:
 		day_and_hour_text = strip_building(room_to_associations[row][3].contents[0])
 		room_text = strip_building(room_to_associations[row][4].contents[0])
-		room_number, room_building = room.split(' ', 1)
+		room_number, room_building = room_text.split(' ', 1)
 		room = create_room(room_number, room_building)
 		create_timeslots(day_and_hour_text, room)
 
@@ -197,6 +198,8 @@ def is_a_or_p(begin_time, end_time, ap):
 			ap = 'P'
 		else:
 			ap = 'A'
+		return ap
+	if begin_time_hour == end_time_hour:
 		return ap
 	if int(begin_time_hour) < int(end_time_hour) or begin_time_hour == '12':
 		pass
