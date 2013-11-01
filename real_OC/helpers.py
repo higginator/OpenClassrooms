@@ -1,6 +1,12 @@
 import urllib2, urllib
 from open_rooms.views import *
 
+all_days = {'M': 'Monday',
+			'Tu': 'Tuesday',
+			'W': 'Wednesday',
+			'Th': 'Thursday',
+			'F': 'Friday'}
+
 def set_building(errors, form):
 	if 'building' in errors:
 		bldg = False
@@ -103,10 +109,10 @@ def create_timeslots(day_and_hour_text, room):
 	#create timeslot
 	for day in times.keys():
 		for time in times[day]:
-			if TimeSlot.objects.filter(day=day, time=time, ap=time[-1]):
+			if TimeSlot.objects.filter(day=day, time=time[:-1], ap=time[-1]):
 				pass
 			else:
-				TimeSlot(day=day,time=time,ap=time[-1]).save()
+				TimeSlot(day=day,time=time[:-1],ap=time[-1]).save()
 	#associate room with the timeslot
 	
 
@@ -114,9 +120,91 @@ def parse_time(day_and_hour_text):
 	#output dictionary mapping key 'day' to a list of half hours and if AM or PM
 	# >>> parse_time('M 1-2P')
 	# {'M' : [1P, 1:30P]}
-	# >>> parse_time('MTuWTh 11:30-1P')
-	# {'M': [11A, 11:30A, 12P, 12:30P], 'W': [11A, 11:30A, 12P, 12:30P],  
-	#  'Tu': [11A, 11:30A, 12P, 12:30P], 'Th': [11A, 11:30A, 12P, 12:30]P}
+	# >>> parse_time('MTuWTh 11-1P')
+	# {'M': ['11A', '11:30A', '12P', '12:30P'], 'W': ['11A', '11:30A', '12P', '12:30P'],  
+	#  'Tu': ['11A', '11:30A', '12P', '12:30P'], 'Th': ['11A', '11:30A', '12P', '12:30P']}
+	days_and_times = {}
+	days, times = day_and_hour_text.split(' ', 1)
+	times_list = split_times(times)
+	for d in split_days(days):
+		days_and_times[d] = []
+		for time in times_list:
+			days_and_times[d].append(time)
+	return days_and_times
+
+def split_days(days):
+	#returns a list of all days
+	# >>> split_days('MTuWTh')
+	# ['M', 'Tu', 'W', 'Th']
+	# >>> split_days('TuThF')
+	# ['Tu', 'Th', 'F']
+	results = []
+	i = 0
+	while i < len(days):
+		if days[i] in all_days:
+			results.append(all_days[days[i]])
+		elif days[i: i+2] in all_days:
+			results.append(all_days[days[i: i+2]])
+		i += 1
+	return results
+
+def split_times(times):
+	#returns a list of all times 930-11P
+	# >>> split_times('1130-1P')
+	# ['1130P', '12P', '1230P']
+	# >>> split_times('4-5P')
+	# ['4P', '430P']
+	results = []
+	begin_time, end_time_ap = times.split('-')
+	end_time = end_time_ap[:-1]
+	ap = end_time_ap[-1]
+	while (begin_time != end_time):
+		if len(begin_time) == 3:
+			#between 130 and 930 and starts on the half hour
+			current_ap = is_a_or_p(begin_time,end_time,ap)
+			results.append(begin_time + current_ap)
+			begin_time = str(int(begin_time[0]) + 1)
+		elif len(begin_time) == 4:
+			#1030 or 1130 or 1230
+			current_ap = is_a_or_p(begin_time,end_time,ap)
+			results.append(begin_time + current_ap)
+			if begin_time == '1130':
+				begin_time = '12'
+			elif begin_time == '1230':
+				begin_time = '1'
+			else:
+				begin_time = '11'
+		else:
+			current_ap = is_a_or_p(begin_time,end_time,ap)
+			results.append(begin_time + current_ap)
+			begin_time = begin_time + '30'
+	return results
+
+def is_a_or_p(begin_time, end_time, ap):
+	if len(begin_time) == 4 or len(begin_time) == 2:
+		begin_time_hour = begin_time[:2]
+	else:
+		begin_time_hour = begin_time[0]
+	if len(end_time) == 4 or len(end_time) == 2:
+		end_time_hour = end_time[:2]
+	else:
+		end_time_hour = end_time[0]
+	if end_time == '12':
+		ap = 'A'
+		return ap
+	if end_time == '1230':
+		if begin_time == '12':
+			ap = 'P'
+		else:
+			ap = 'A'
+		return ap
+	if int(begin_time_hour) < int(end_time_hour) or begin_time_hour == '12':
+		pass
+	else:
+		if ap == 'P':
+			ap = 'A'
+		#will never be the case that a class goes from PM to AM
+	return ap
 
 def get_necessary_tags(soup):
 	tags = []
@@ -134,7 +222,7 @@ def separate_into_rows(tags_list):
 	room_to_associations = {}
 	j = 0
 	z = 0
-	for tag in tags:
+	for tag in tags_list:
 		if j in room_to_associations:
 			room_to_associations[j].append(tag)
 		else:
