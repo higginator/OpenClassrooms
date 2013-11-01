@@ -11,6 +11,7 @@ class Room(models.Model):
 class TimeSlot(models.Model):
 	time = models.CharField(max_length=10)
 	day = models.CharField(max_length=15)
+	ap = models.CharField(max_length=1)
 	room = models.ManyToManyField(Room)
 
 	def __unicode__(self):
