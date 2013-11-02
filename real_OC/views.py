@@ -19,8 +19,13 @@ def home_page(request):
 		num = set_num(errors, form)
 		time = set_time(errors, form)
 		day = set_day(errors, form)
+		print bldg
+		print num
+		print time
+		print day
 		#try:
 		rooms = determine_request(bldg, time, day, num)
+		print rooms
 		return render_to_response('test_rooms.html', RequestContext(request, {'rooms': rooms}))
 			#return HttpResponseRedirect('/Thanks'
 		#except NoInputError:

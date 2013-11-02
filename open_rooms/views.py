@@ -6,7 +6,7 @@ from datetime import *
 #SINGLE INPUT
 
 def get_building(bldg):
-	return Room.objects.filter(building=bldg)
+	return Room.objects.filter(building=bldg.upper())
 
 def get_time(input_time):
 	today = convert_to_day(datetime.today().weekday())
