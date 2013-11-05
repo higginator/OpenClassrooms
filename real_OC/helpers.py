@@ -86,15 +86,20 @@ def get_page(url, post_data=''):
 
 
 def add_to_db(semester, bldg):
+	print 'successful call to add_to_db'
 	building = get_building_source(semester, bldg)
 	soup = BeautifulSoup(building)
 	tags = get_necessary_tags(soup)
 	room_to_associations = separate_into_rows(tags)
 	for row in room_to_associations:
+		print 'a'	
 		day_and_hour_text = strip_building(room_to_associations[row][3].contents[0])
+		if len(day_and_hour_text) < 1:
+			break
 		room_text = strip_building(room_to_associations[row][4].contents[0])
 		room_number, room_building = room_text.split(' ', 1)
 		room = create_room(room_number, room_building)
+		print room
 		timeslots = create_timeslots(day_and_hour_text)
 		associate_room_and_times(room, timeslots)
 
@@ -219,8 +224,11 @@ def is_a_or_p(begin_time, end_time, ap):
 def get_necessary_tags(soup):
 	tags = []
 	for tag in soup.find_all('font'):
-		if tag['size'] == '-4':
-			tags.append(tag)
+		try:
+			if tag['size'] == '-4':
+				tags.append(tag)
+		except:
+			pass
 	for tag in tags:
 		if tag.b:
 			tags.remove(tag)
@@ -274,7 +282,9 @@ def format(abbr):
 
 def store_all_rooms(semester):
 	full_name, abbreviations = building_lists()
+	#abbreviations.remove('BOT GARDEN')
 	for abbr in abbreviations:
+		print abbr
 		format(abbr)
 		add_to_db(semester, abbr)
 
