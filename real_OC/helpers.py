@@ -92,7 +92,6 @@ def add_to_db(semester, bldg):
 	tags = get_necessary_tags(soup)
 	room_to_associations = separate_into_rows(tags)
 	for row in room_to_associations:
-		print 'a'	
 		day_and_hour_text = strip_building(room_to_associations[row][3].contents[0])
 		if len(day_and_hour_text) < 1:
 			break
