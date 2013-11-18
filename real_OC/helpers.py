@@ -36,7 +36,7 @@ def set_day(errors, form):
 		day = form.cleaned_data['day']
 	return day
 
-def determine_request(bldg, time, day, num):
+def determine_request(bldg, time, day, num, ap):
 	#Quadruple Input
 	if bldg and time and day and num:
 		return get_building_time_day_number(bldg, time, day, num)
@@ -64,13 +64,13 @@ def determine_request(bldg, time, day, num):
 		return get_day_number(day, num)
 	#Single Input
 	elif bldg:
-		return get_building(bldg)
+		return get_building(bldg, ap)
 	elif time:
-		return get_time(time)
+		return get_time(time, ap)
 	elif day:
-		return get_day(day)
+		return get_day(day, ap)
 	elif num:
-		return get_number(num)
+		return get_number(num, ap)
 	#else
 		#throw error
 
@@ -86,7 +86,6 @@ def get_page(url, post_data=''):
 
 
 def add_to_db(semester, bldg):
-	print 'successful call to add_to_db'
 	building = get_building_source(semester, bldg)
 	soup = BeautifulSoup(building)
 	tags = get_necessary_tags(soup)
@@ -96,9 +95,14 @@ def add_to_db(semester, bldg):
 		if len(day_and_hour_text) < 1:
 			break
 		room_text = strip_building(room_to_associations[row][4].contents[0])
-		room_number, room_building = room_text.split(' ', 1)
+		#chop off (effective) from building name
+		if '(' in room_text:
+			room_text = room_text[:room_text.find('(')-1]
+		if len(room_text.split(' ', 1)) > 1:
+			room_number, room_building = room_text.split(' ', 1)
+		else:
+			room_number, room_building = '', room_text.split(' ', 1)
 		room = create_room(room_number, room_building)
-		print room
 		timeslots = create_timeslots(day_and_hour_text)
 		associate_room_and_times(room, timeslots)
 
@@ -138,10 +142,11 @@ def parse_time(day_and_hour_text):
 	days_and_times = {}
 	days, times = day_and_hour_text.split(' ', 1)
 	times_list = split_times(times)
-	for d in split_days(days):
-		days_and_times[d] = []
-		for time in times_list:
-			days_and_times[d].append(time)
+	if times_list:
+		for d in split_days(days):
+			days_and_times[d] = []
+			for time in times_list:
+				days_and_times[d].append(time)
 	return days_and_times
 
 def split_days(days):
@@ -170,6 +175,8 @@ def split_times(times):
 	begin_time, end_time_ap = times.split('-')
 	end_time = end_time_ap[:-1]
 	ap = end_time_ap[-1]
+	if (len(begin_time) > 1 and begin_time[-1] == '5') or (len(end_time) > 1 and end_time[-1] == '5'):
+		return
 	while (begin_time != end_time):
 		if len(begin_time) == 3:
 			#between 130 and 930 and starts on the half hour

@@ -14,19 +14,21 @@ def some_func(request):
 def home_page(request):
 	if request.method == 'POST':
 		form = SearchForm(request.POST)
-		errors = form.errors
-		bldg = set_building(errors, form)
-		num = set_num(errors, form)
-		time = set_time(errors, form)
-		day = set_day(errors, form)
-		print bldg
-		print num
-		print time
-		print day
+		#errors = form.errors
+		#bldg = set_building(errors, form)
+		#num = set_num(errors, form)
+		#time = set_time(errors, form)
+		#day = set_day(errors, form)
+		bldg = request.POST.get('building')
+		num = request.POST.get('number')
+		time = request.POST.get('time')
+		day = request.POST.get('day')
+		ap = request.POST.get('ap')
+		print bldg + num + time + day + ap
 		#try:
-		rooms = determine_request(bldg, time, day, num)
-		print rooms
-		return render_to_response('test_rooms.html', RequestContext(request, {'rooms': rooms}))
+		rooms = determine_request(bldg, time, day, num, ap)
+		#form = SearchForm()
+		return render_to_response('test_rooms.html', RequestContext(request, {'rooms': rooms, 'form': form}))
 			#return HttpResponseRedirect('/Thanks'
 		#except NoInputError:
 		#	form = SearchForm())

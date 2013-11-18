@@ -4,73 +4,47 @@ from datetime import *
 
 #Default to input of TODAY if no day input is provided by user
 #SINGLE INPUT
+#Output dictionaries mapping {Room, [Timeslot1, Timeslot2...]}
 
-def get_building(bldg):
-	return Room.objects.filter(building=bldg.upper())
-
-def get_time(input_time):
+def get_building(bldg, ap):
+	results = {}
 	today = convert_to_day(datetime.today().weekday())
-	time_slots = TimeSlot.objects.filter(day=today).exclude(time=input_time)
-	return Room.objects.filter(timeslot__in=time_slots)
+	for room in Room.objects.filter(building=bldg.upper()):
+		results[room] = []
+		for time in room.timeslot_set.all():
+			if str(time.day) == today and str(time.ap) == ap:
+					results[room].append(time)
+	return results
 
-def get_day(input_day):
-	return Room.objects.filter(timeslot__day__exact=input_day)
-
-def get_number(num):
+def get_time(time, ap):
+	results = {}
 	today = convert_to_day(datetime.today().weekday())
-	return Room.objects.filter(timeslot__day__exact=today,number=num)
+	time_slot = TimeSlot.objects.filter(day=today).exclude(time=time)
+	for room in Room.objects.filter(timeslot__in=time_slot):
+		results[room] = []
+		for time in room.timeslot_set.all():
+			if str(time.day) == today and str(time.ap) == ap:
+				results[room].append(time)
+	print results
+	return results
+
+def get_number(num, ap):
+	results = {}
+	today = convert_to_day(datetime.today().weekday())
+	for room in Room.objects.filter(timeslot__day__exact=today,number=num):
+		results[room] = []
+		for time in room.timeslot_set.all():
+			if str(time.day) == today and str(time.ap) == ap:
+				results[room].append(time)
+	return results
+
+def get_day(day, ap):
+	results = {}
+	for room in Room.objects.filter(timeslot__day__exact=day):
+		results[room] = []
+		for time in room.timeslot_set.all():
+			if str(time.day) == day and str(time.ap) == ap:
+				results[room].append(time)
+	return results
 
 #DOUBLE INPUT
-
-def get_time_day(input_time, input_day):
-	time_slots = TimeSlot.objects.filter(day=input_day).exclude(time=input_time)
-	return Room.objects.filter(timeslot__in=time_slots)
-
-def get_building_day(bldg, input_day):
-	time_slots = TimeSlot.objects.filter(day=input_day)
-	return Room.objects.filter(timeslot__in=time_slots,building=bldg)
-
-def get_building_time(bldg, input_time):
-	today = convert_to_day(datetime.today().weekday())
-	time_slots = TimeSlot.objects.filter(day=today).exclude(time=input_time)
-	return Room.objects.filter(timeslot__in=time_slots,building=bldg)
-
-def get_building_number(bldg, num):
-	return Room.objects.filter(building=bldg, number=num)
-
-def get_time_number(input_time, num):
-	today = convert_to_day(datetime.today().weekday())
-	time_slots = TimeSlot.objects.filter(day=today).exclude(time=input_time)
-	return Room.objects.filter(timeslot__in=time_slots,number=num)
-
-def get_day_number(input_day, num):
-	return Room.objects.filter(timeslot__day__exact=input_day,number=num)
-
-
-#TRIPLE INPUT
-
-def get_building_time_day(bldg, input_time, input_day):
-	time_slots = TimeSlot.objects.filter(day=input_day).exclude(time=input_time)
-	return Room.objects.filter(timeslot__in=time_slots,building=bldg)
-
-def get_building_time_number(bldg, input_time, num):
-	time_slots = TimeSlot.objects.exclude(time=input_time)
-	return Room.objects.filter(timeslot__in=time_slots,building=bldg,number=num)
-
-
-def get_building_day_number(bldg, input_day, num):
-	time_slots = TimeSlot.objects.filter(day=input_day)
-	return Room.objects.filter(timeslot__in=time_slots,building=bldg,number=num)
-
-
-def get_day_time_number(input_day, input_time, num):
-	time_slots = TimeSlot.objects.filter(day=input_day).exclude(time=input_time)
-	return Room.objects.filter(timeslot__in=time_slots,number=num)
-	
-
-#QUADRUPLE INPUT
-
-def get_building_time_day_number(bldg, input_time, input_day, num):
-	time_slots = TimeSlot.objects.filter(day=input_day).exclude(time=input_time)
-	return Room.objects.filter(timeslot__in=time_slots,building=bldg,number=num)
-	

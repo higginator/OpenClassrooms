@@ -1,10 +1,25 @@
-<ul>
-	{% for room in rooms %}
-		<li> {{ room }} </li>
-		<ul>
-			{% for time in room.timeslot_set.all %}
-				<li> {{ time }} </li>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset='utf-8'>
+		<link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}test_rooms.css'>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="{{ STATIC_URL }}testing_form.js/"></script>
+</head>
+<body>
+	<form action='/home/' method='POST'>{% csrf_token %}
+		{{ form.as_table }}
+		<input type='submit' value='Bang!'>
+	</form>
+	<ul>
+		{% for room, times in rooms.items %}
+			<li> {{ room }}</li>
+			{% for time in times %}
+				<li> {{ time }}{{time.ap}}	 </li>
 			{% endfor %}
-		</ul>
-	{% endfor %}
-</ul>
+			<br>
+		{% endfor %}
+	</ul>
+</body>
+</html>

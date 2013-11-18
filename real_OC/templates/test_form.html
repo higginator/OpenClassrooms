@@ -1,10 +1,13 @@
+{% load staticfiles %}
 <!doctype HTML>
 <html>
 	<head>
 		<meta charset='utf-8'>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="{{ STATIC_URL }}testing_form.js/"></script>
 	</head>
 	<body>
-		<form action='/home/' method='post'>{% csrf_token %}
+		<form action='/home/' method='POST'>{% csrf_token %}
 			{{ form.as_table }}
 			<input type='submit' value='Bang!'>
 		</form>
