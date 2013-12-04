@@ -1,4 +1,4 @@
 $(document).ready(function() {
-	alert('hi');
+	//alert('Im alive!!');
 	$('label[for="id_ap"]').hide();
 });

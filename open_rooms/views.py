@@ -17,15 +17,29 @@ def get_building(bldg, ap):
 	return results
 
 def get_time(time, ap):
+	will_this_room_work = True
 	results = {}
 	today = convert_to_day(datetime.today().weekday())
-	time_slot = TimeSlot.objects.filter(day=today).exclude(time=time)
-	for room in Room.objects.filter(timeslot__in=time_slot):
-		results[room] = []
-		for time in room.timeslot_set.all():
-			if str(time.day) == today and str(time.ap) == ap:
-				results[room].append(time)
-	print results
+	#time_slot = TimeSlot.objects.filter(day=today).exclude(time=time)
+	time_slot = TimeSlot.objects.filter(day=today)
+	for room in Room.objects.filter(timeslot__in=time_slot).distinct():
+		#results[room] = []
+		times_list = []
+		for timeslot in room.timeslot_set.filter(day=today):
+			#if str(time.day) == today and str(time.ap) == ap:
+			#	results[room].append(time)
+			if str(timeslot.time) == str(time) and str(timeslot.ap) == str(ap):
+				will_this_room_work = False
+				break
+			else:
+				times_list.append(timeslot)
+		if will_this_room_work:
+			results[room] = []
+			results[room].extend(times_list)
+		else:
+			will_this_room_work = True
+		del times_list
+	#print results
 	return results
 
 def get_number(num, ap):
@@ -40,7 +54,7 @@ def get_number(num, ap):
 
 def get_day(day, ap):
 	results = {}
-	for room in Room.objects.filter(timeslot__day__exact=day):
+	for room in Room.objects.filter(timeslot__day__exact=day).distinct():
 		results[room] = []
 		for time in room.timeslot_set.all():
 			if str(time.day) == day and str(time.ap) == ap:
@@ -48,3 +62,7 @@ def get_day(day, ap):
 	return results
 
 #DOUBLE INPUT
+
+def get_time_day(time, day, ap):
+	time_slots = TimeSlot.objects.filter(day=day).exclude(time=time)
+	return Room.objects.filter(timeslot__in=time_slots).distinct()

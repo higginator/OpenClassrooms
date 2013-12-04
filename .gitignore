@@ -5,3 +5,8 @@
 *.project
 *.pydevproject
 local_settings.py
+
+.Python
+bin/
+include/
+lib/
