@@ -1,6 +1,7 @@
 from open_rooms.models import *
 from open_rooms.helpers import *
 from datetime import *
+from django.http import HttpResponse
 
 #Default to input of TODAY if no day input is provided by user
 #SINGLE INPUT
@@ -21,25 +22,11 @@ def get_time(time, ap):
 	results = {}
 	today = convert_to_day(datetime.today().weekday())
 	#time_slot = TimeSlot.objects.filter(day=today).exclude(time=time)
-	time_slot = TimeSlot.objects.filter(day=today)
-	for room in Room.objects.filter(timeslot__in=time_slot).distinct():
-		#results[room] = []
-		times_list = []
+	for room in Room.objects.filter(timeslot__day__exact=today).distinct():
+		results[room] = []
 		for timeslot in room.timeslot_set.filter(day=today):
-			#if str(time.day) == today and str(time.ap) == ap:
-			#	results[room].append(time)
 			if str(timeslot.time) == str(time) and str(timeslot.ap) == str(ap):
-				will_this_room_work = False
-				break
-			else:
-				times_list.append(timeslot)
-		if will_this_room_work:
-			results[room] = []
-			results[room].extend(times_list)
-		else:
-			will_this_room_work = True
-		del times_list
-	#print results
+				results[room].append(timeslot)
 	return results
 
 def get_number(num, ap):

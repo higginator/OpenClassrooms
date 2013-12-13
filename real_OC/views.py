@@ -41,3 +41,9 @@ def hmm(request):
 
 def thanks(request):
 	return HttpResponse('Thank You!!!')
+
+def get_data(request):
+	if request.is_ajax():
+		return HttpResponse('some string')
+	else:
+		return HttpResponse('another')

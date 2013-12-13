@@ -37,6 +37,7 @@ def set_day(errors, form):
 	return day
 
 def determine_request(bldg, time, day, num, ap):
+	print ('inside')
 	#Quadruple Input
 	if bldg and time and day and num:
 		return get_building_time_day_number(bldg, time, day, num)
