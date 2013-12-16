@@ -18,10 +18,8 @@ def get_building(bldg, ap):
 	return results
 
 def get_time(time, ap):
-	will_this_room_work = True
 	results = {}
 	today = convert_to_day(datetime.today().weekday())
-	#time_slot = TimeSlot.objects.filter(day=today).exclude(time=time)
 	for room in Room.objects.filter(timeslot__day__exact=today).distinct():
 		results[room] = []
 		for timeslot in room.timeslot_set.filter(day=today):
@@ -50,6 +48,65 @@ def get_day(day, ap):
 
 #DOUBLE INPUT
 
+def get_building_number(bldg, num, ap):
+	results = {}
+	today = convert_to_day(datetime.today().weekday())
+	room = Room.objects.filter(building=bldg.upper(), number=num)[0]
+	results[room] = []
+	for time in room.timeslot_set.all():
+		if str(time.day) == today and str(time.ap) == ap:
+			results[room].append(time)
+	return results
+
+def get_building_day(bldg, day, ap):
+	results = {}
+	for room in Room.objects.filter(building=bldg.upper()):
+		results[room] = []
+		for time in room.timeslot_set.all():
+			if str(time.day) == day.capitalize() and str(time.ap) == ap:
+				results[room].append(time)
+	return results
+
+def get_building_time(bldg, time, ap):
+	results = {}
+	today = convert_to_day(datetime.today().weekday())
+	for room in Room.objects.filter(building=bldg.upper()):
+		results[room] = []
+		for timeslot in room.timeslot_set.all():
+			if str(timeslot.time) == str(time) and str(timeslot.ap) == str(ap) and str(timeslot.day) == 'Friday':
+				results[room].append(timeslot)
+		if len(results[room]) == 1:
+			del results[room]
+	return results
+
+def get_time_number(time, num, ap):
+	results = {}
+	today = convert_to_day(datetime.today().weekday())
+	for room in Room.objects.filter(number=num):
+		results[room] = []
+		for timeslot in room.timeslot_set.all():
+			if str(timeslot.time) == str(time) and str(timeslot.ap) == str(ap) and str(timeslot.day) == 'Friday':
+				results[room].append(timeslot)
+		if len(results[room]) == 1:
+			del results[room]
+	return results
+
+def get_day_number(day, num, ap):
+	results = {}
+	for room in Room.objects.filter(number=num):
+		results[room] = []
+		for timeslot in room.timeslot_set.all():
+			if str(timeslot.day) == day.capitalize() and str(timeslot.ap) == str(ap):
+				results[room].append(timeslot)
+	return results
+	
 def get_time_day(time, day, ap):
-	time_slots = TimeSlot.objects.filter(day=day).exclude(time=time)
-	return Room.objects.filter(timeslot__in=time_slots).distinct()
+	results = {}
+	for room in Room.objects.filter(timeslot__day__exact=day.capitalize()).distinct():
+		results[room] = []
+		for timeslot in room.timeslot_set.filter(day=day.capitalize()):
+			if str(timeslot.time) == str(time) and str(timeslot.ap) == str(ap):
+				results[room].append(timeslot)
+		if len(results[room]) == 1:
+			del results[room]
+	return results

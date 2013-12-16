@@ -52,17 +52,17 @@ def determine_request(bldg, time, day, num, ap):
 		return get_day_time_number(day, time, num)
 	#Double Input
 	elif time and day:
-		return get_time_day(time, day)
+		return get_time_day(time, day, ap)
 	elif bldg and day:
-		return get_building_day(bldg, day)
+		return get_building_day(bldg, day, ap)
 	elif bldg and time:
-		return get_building_time(bldg, time)
+		return get_building_time(bldg, time, ap)
 	elif bldg and num:
-		return get_building_number(bldg, num)
+		return get_building_number(bldg, num, ap)
 	elif time and num:
-		return get_time_number(time, num)
+		return get_time_number(time, num, ap)
 	elif day and num:
-		return get_day_number(day, num)
+		return get_day_number(day, num, ap)
 	#Single Input
 	elif bldg:
 		return get_building(bldg, ap)
