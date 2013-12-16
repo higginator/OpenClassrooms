@@ -43,13 +43,13 @@ def determine_request(bldg, time, day, num, ap):
 		return get_building_time_day_number(bldg, time, day, num)
 	#Triple Input
 	elif bldg and time and day:
-		return get_building_time_day(bldg, time, day)
+		return get_building_time_day(bldg, time, day, ap)
 	elif bldg and time and num:
-		return get_building_time_number(bldg, time, num)
+		return get_building_time_number(bldg, time, num, ap)
 	elif bldg and day and num:
-		return get_building_day_number(bldg, day, num)
+		return get_building_day_number(bldg, day, num, ap)
 	elif time and day and num:
-		return get_day_time_number(day, time, num)
+		return get_day_time_number(day, time, num, ap)
 	#Double Input
 	elif time and day:
 		return get_time_day(time, day, ap)
