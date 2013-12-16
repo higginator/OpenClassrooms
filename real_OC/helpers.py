@@ -40,7 +40,7 @@ def determine_request(bldg, time, day, num, ap):
 	print ('inside')
 	#Quadruple Input
 	if bldg and time and day and num:
-		return get_building_time_day_number(bldg, time, day, num)
+		return get_building_time_day_number(bldg, time, day, num, ap)
 	#Triple Input
 	elif bldg and time and day:
 		return get_building_time_day(bldg, time, day, ap)

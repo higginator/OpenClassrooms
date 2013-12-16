@@ -25,6 +25,8 @@ def get_time(time, ap):
 		for timeslot in room.timeslot_set.filter(day=today):
 			if str(timeslot.time) == str(time) and str(timeslot.ap) == str(ap):
 				results[room].append(timeslot)
+		if len(results[room]) == 1:
+			del results[room]
 	return results
 
 def get_number(num, ap):
@@ -151,4 +153,15 @@ def get_day_time_number(day, time, num, ap):
 				results[room].append(timeslot)
 		if len(results[room]) == 1:
 			del results[room]
+	return results
+
+#QUADRUPLE INPUT
+
+def get_building_time_day_number(bldg, time, day, num, ap):
+	results = {}
+	for room in Room.objects.filter(building=bldg.upper(), number=num):
+		results[room] = []
+		for timeslot in room.timeslot_set.filter(day=day.capitalize()):
+			if str(timeslot.ap) == str(ap) and str(timeslot.time) == str(time):
+				results[room].append(timeslot)
 	return results
