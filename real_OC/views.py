@@ -24,14 +24,8 @@ def home_page(request):
 		time = request.POST.get('time')
 		day = request.POST.get('day')
 		ap = request.POST.get('ap')
-		print bldg + num + time + day + ap
-		#try:
 		rooms = determine_request(bldg, time, day, num, ap)
-		#form = SearchForm()
 		return render_to_response('test_rooms.html', RequestContext(request, {'rooms': rooms, 'form': form}))
-			#return HttpResponseRedirect('/Thanks'
-		#except NoInputError:
-		#	form = SearchForm())
 	else:
 		form = SearchForm()
 	return render_to_response('test_form.html', RequestContext(request, {'form': form}))
