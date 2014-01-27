@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from real_OC.views import home_page, hmm, thanks, get_data
+from real_OC.views import home_page, get_data, about, buildings_list, contact
 from real_OC.helpers import *
 
 # Uncomment the next two lines to enable the admin:
@@ -16,8 +16,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^home/$', home_page),
-    url(r'^wheredoesthisgo/$', hmm),
-    url(r'^thanks/$', thanks),
+    url(r'^$', home_page),
+    url(r'^about/$', about),
+    url(r'^buildings/$', buildings_list),
+    url(r'^contact/$', contact),
     #url(r'^get_data/$', determine_request),
 )

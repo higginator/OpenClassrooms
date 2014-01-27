@@ -1,26 +1,17 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html>
-<head>
-		<meta charset='utf-8'>
-		<link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}test_rooms.css'>
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="{{ STATIC_URL }}testing_form.js/"></script>
-</head>
-<body>
-	<form action='/home/' method='POST'>{% csrf_token %}
-		{{ form.as_table }}
-		<input type='submit' value='Bang!' id='big_button'>
-	</form>
-	<ul>
-		{% for room, times in rooms.items %}
-			<li> {{ room }}</li>
-			{% for time in times %}
-				<li> {{ time }}{{time.ap}}	 </li>
-			{% endfor %}
-			<br>
+{% extends "header.html" %}
+{% block mainbody %}
+<p class='directive'> I want a room in...</p>
+<form action='/' method='POST'>{% csrf_token %}
+	{{ form.as_table }}
+	<input type='submit' value='Go!' id='big_button'>
+</form>
+<ul>
+	{% for room, times in rooms.items %}
+		<li> {{ room }}</li>
+		{% for time in times %}
+			<li> {{ time }}{{time.ap}}	 </li>
 		{% endfor %}
-	</ul>
-</body>
-</html>
+		<br>
+	{% endfor %}
+</ul>
+{% endblock %}

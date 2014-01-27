@@ -30,11 +30,14 @@ def home_page(request):
 		form = SearchForm()
 	return render_to_response('test_form.html', RequestContext(request, {'form': form}))
 
-def hmm(request):
-	return HttpResponse('Hi There')
+def about(request):
+	return render_to_response('about.html', RequestContext(request))
 
-def thanks(request):
-	return HttpResponse('Thank You!!!')
+def buildings_list(request):
+	return render_to_response('buildings_list.html', RequestContext(request))
+
+def contact(request):
+	return render_to_response('contact.html', RequestContext(request))
 
 def get_data(request):
 	if request.is_ajax():
