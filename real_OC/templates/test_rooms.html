@@ -7,11 +7,17 @@
 </form>
 <ul>
 	{% for room, times in rooms.items %}
-		<li> {{ room }}</li>
+		<ul>{{ room }}
 		{% for time in times %}
-			<li> {{ time }}{{time.ap}}	 </li>
+			<li data-day='{{ time.day }}' data-ap='{{ time.ap }}'> {{ time }}{{time.ap}}	 </li>
 		{% endfor %}
+		</ul>
 		<br>
 	{% endfor %}
 </ul>
+
+	{% for room, times in rooms.items %}
+		<canvas name='{{ room }}'></canvas>
+	{% endfor %}
+<script src='{{ STATIC_URL }}clock.js'></script>
 {% endblock %}
