@@ -5,19 +5,20 @@
 	{{ form.as_table }}
 	<input type='submit' value='Go!' id='big_button'>
 </form>
-<ul>
+<ul id='main_ul'>
 	{% for room, times in rooms.items %}
-		<ul>{{ room }}
+		<ul name='{{ room }}'>{{ room }}
 		{% for time in times %}
-			<li data-day='{{ time.day }}' data-ap='{{ time.ap }}'> {{ time }}{{time.ap}}	 </li>
+			<li data-day='{{ time.day }}' data-ap='{{ time.ap }}'>{{ time.time }}</li>
 		{% endfor %}
 		</ul>
 		<br>
 	{% endfor %}
 </ul>
-
+	<div id='canvii_container'>
 	{% for room, times in rooms.items %}
 		<canvas name='{{ room }}'></canvas>
 	{% endfor %}
+	</div>
 <script src='{{ STATIC_URL }}clock.js'></script>
 {% endblock %}
