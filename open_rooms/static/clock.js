@@ -7,7 +7,14 @@ $(document).ready(function() {
 	var canviis = $('canvas');
 	var day = $('ul > li').attr('data-day');
 	var ap = $('ul > li').attr('data-ap');
+	var start_x = 100;
+	var start_y = 80;
+	var clock_radius = 45;
+	var color;
+	var endAngle;
+	var oldEndAngle;
 	for (var i=0; i< canviis.length; i++) {
+		oldEndAngle = 0;
 		var ctx = canviis[i].getContext("2d");
 		ctx.font = "bold 16px sans-serif";
 		ctx.fillText($(canviis[i]).attr("name"), 100, 20);
@@ -18,12 +25,23 @@ $(document).ready(function() {
 		//for the UL with the same name as the canvas
 		//grab the list items that represent that rooms times
 		//and draw an appropriate clock
-
-		ctx.beginPath();
 		//arc (x-center, y-center, radius, startAngle, endAngle, counterClockwise)
-		ctx.arc(100, 80, 45, 0, 2* Math.PI, false);
-		ctx.fillStyle = 'green';
-		ctx.fill();
-		ctx.closePath();
+		for (var j=0; j < 25; j++) {
+			endAngle = j/12*Math.PI;
+			if (j % 2 == 0) {
+				color = 'red';
+			} else {
+				color = 'green';
+			}
+			ctx.beginPath();
+			ctx.arc(start_x, start_y, clock_radius, oldEndAngle, endAngle, false);
+			oldEndAngle = endAngle;
+			ctx.lineTo(start_x, start_y);
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.strokeStyle = color;
+			ctx.stroke();
+			ctx.closePath();
+		};
 	};
 });
