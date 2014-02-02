@@ -34,6 +34,7 @@ h6 {
 
 .directive {
 	font-size: 40px;
+	margin-top: 100px;
 	margin-bottom: 30px;
 }
 
@@ -49,4 +50,8 @@ h6 {
 
 canvas {
 	border: 1px solid black;
+}
+
+#flash {
+	font-size: 20px;
 }

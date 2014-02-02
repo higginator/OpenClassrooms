@@ -12,13 +12,14 @@
 			<li data-day='{{ time.day }}' data-ap='{{ time.ap }}'>{{ time.time }}</li>
 		{% endfor %}
 		</ul>
-		<br>
 	{% endfor %}
 </ul>
 	<div id='canvii_container'>
 	{% for room, times in rooms.items %}
 		<canvas name='{{ room }}'></canvas>
 	{% endfor %}
+	</div>
+	<div id='flash'>
 	</div>
 <script src='{{ STATIC_URL }}clock.js'></script>
 {% endblock %}

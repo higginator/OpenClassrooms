@@ -120,7 +120,7 @@ def get_building_time_day(bldg, time, day, ap):
 	for room in Room.objects.filter(building=bldg.upper()):
 		results[room] = []
 		for timeslot in room.timeslot_set.filter(day=day.capitalize()):
-			if str(timeslot.time) and str(timeslot.ap) == str(ap):
+			if str(timeslot.time) == str(time) and str(timeslot.ap) == str(ap):
 				results[room].append(timeslot)
 		if len(results[room]) == 1:
 			del results[room]
@@ -130,8 +130,8 @@ def get_building_time_number(bldg, time, num, ap):
 	results = {}
 	for room in Room.objects.filter(building=bldg.upper(), number=num):
 		results[room] = []
-		for timeslot in room.timeslot_set.filter(time=time):
-			if str(timeslot.ap) == str(ap):
+		for timeslot in room.timeslot_set.all():
+			if str(timeslot.ap) == str(ap) and str(timeslot.time) == str(time):
 				results[room].append(timeslot)
 	return results
 
