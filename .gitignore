@@ -1,5 +1,6 @@
 *.pyc
 staticfiles
+local_settings.py
 
 .Python
 bin/
