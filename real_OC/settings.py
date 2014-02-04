@@ -167,7 +167,7 @@ DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 DATABASES['default']['NAME'] = 'open_rooms_db'
 DATABASES['default']['USER'] = 'Higginator'
 DATABASES['default']['PASSWORD'] = ''
-DATABASES['default']['HOST'] = ''
+DATABASES['default']['HOST'] = '127.0.0.1'
 DATABASES['default']['PORT'] = ''
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
