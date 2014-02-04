@@ -165,10 +165,10 @@ DATABASES = {}
 DATABASES['default'] =  dj_database_url.config()
 DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 DATABASES['default']['NAME'] = 'open_rooms_db'
-DATABASES['default']['USER'] = 'Higginator'
-DATABASES['default']['PASSWORD'] = ''
-DATABASES['default']['HOST'] = ''
-DATABASES['default']['PORT'] = '5435'
+DATABASES['default']['USER'] = 'pvdxrgrsdqcseo'
+DATABASES['default']['PASSWORD'] = 'oi8AmRGHxirfYUfgm70JoLzA_U'
+DATABASES['default']['HOST'] = 'ec2-54-221-206-165.compute-1.amazonaws.com'
+DATABASES['default']['PORT'] = '5432'
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
