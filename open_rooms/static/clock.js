@@ -62,6 +62,7 @@ $(document).ready(function() {
 				ctx.fillText(day, 180, 80);
 				ctx.fillText(ap + 'M Clock', 180, 100);
 			};
+			//
 			//for the UL with the same name as the canvas
 			//grab the list items that represent that rooms times
 			//and draw an appropriate clock
