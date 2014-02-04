@@ -103,6 +103,9 @@ def add_to_db(semester, bldg):
 			room_number, room_building = room_text.split(' ', 1)
 		else:
 			room_number, room_building = '', room_text.split(' ', 1)
+		print day_and_hour_text
+		print room_number
+		print room_building
 		room = create_room(room_number, room_building)
 		timeslots = create_timeslots(day_and_hour_text)
 		associate_room_and_times(room, timeslots)
