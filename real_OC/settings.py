@@ -168,7 +168,7 @@ DATABASES['default']['NAME'] = 'open_rooms_db'
 DATABASES['default']['USER'] = 'Higginator'
 DATABASES['default']['PASSWORD'] = ''
 DATABASES['default']['HOST'] = '127.0.0.1'
-DATABASES['default']['PORT'] = ''
+DATABASES['default']['PORT'] = '5432'
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
