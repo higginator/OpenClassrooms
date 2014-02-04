@@ -92,23 +92,24 @@ def add_to_db(semester, bldg):
 	tags = get_necessary_tags(soup)
 	room_to_associations = separate_into_rows(tags)
 	for row in room_to_associations:
+		add_it = True
 		day_and_hour_text = strip_building(room_to_associations[row][3].contents[0])
 		if len(day_and_hour_text) < 1:
-			break
+			add_it = False
 		room_text = strip_building(room_to_associations[row][4].contents[0])
 		#chop off (effective) from building name
 		if '(' in room_text:
 			room_text = room_text[:room_text.find('(')-1]
+		if 'UNSCHED' in room_text:
+			add_it = False
 		if len(room_text.split(' ', 1)) > 1:
 			room_number, room_building = room_text.split(' ', 1)
 		else:
 			room_number, room_building = '', room_text.split(' ', 1)
-		print day_and_hour_text
-		print room_number
-		print room_building
-		room = create_room(room_number, room_building)
-		timeslots = create_timeslots(day_and_hour_text)
-		associate_room_and_times(room, timeslots)
+		if add_it:
+			room = create_room(room_number, room_building)
+			timeslots = create_timeslots(day_and_hour_text)
+			associate_room_and_times(room, timeslots)
 
 def create_room(room_number, room_building):
 	if Room.objects.filter(building=room_building, number=room_number):
