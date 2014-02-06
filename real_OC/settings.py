@@ -160,11 +160,11 @@ LOGGING = {
 }
 
 # Parse database configuration from $DATABASE_URL
-#import dj_database_url
-#DATABASES = {}
-#DATABASES['default'] =  dj_database_url.config()
-#DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
-#DATABASES['default']['NAME'] = 'open_rooms_db'
+import dj_database_url
+DATABASES = {}
+DATABASES['default'] =  dj_database_url.config()
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+DATABASES['default']['NAME'] = 'open_rooms_db'
 #DATABASES['default']['USER'] = 'pvdxrgrsdqcseo'
 #DATABASES['default']['PASSWORD'] = 'oi8AmRGHxirfYUfgm70JoLzA_U'
 #DATABASES['default']['HOST'] = 'ec2-54-221-206-165.compute-1.amazonaws.com'
@@ -187,9 +187,9 @@ STATICFILES_DIRS = (
 )
 
 #USE THESE FOR HEROKU!!!
-import dj_database_url
-DATABASES = {}
-DATABASES['default'] =  dj_database_url.config(default=os.environ['DATABASE_URL'])
+#import dj_database_url
+#DATABASES = {}
+#DATABASES['default'] =  dj_database_url.config(default=os.environ['DATABASE_URL'])
 
 
 
