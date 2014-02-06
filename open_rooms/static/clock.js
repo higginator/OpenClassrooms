@@ -55,7 +55,9 @@ $(document).ready(function() {
 		for (var i=0; i< canviis.length; i++) {
 			times = [3, 330, 4, 430, 5, 530, 6, 630, 7, 730, 8, 830, 9, 930, 10, 1030, 11, 1130, 12, 1230, 1, 130, 2, 230];
 			oldEndAngle = 0;
-			var ctx = canviis[i].getContext("2d");
+			var current_canvas = canviis[i];
+			var ctx = current_canvas.getContext("2d");
+
 			ctx.font = "bold 16px sans-serif";
 			ctx.fillText($(canviis[i]).attr("name"), 100, 20);
 			if (day) {
@@ -97,7 +99,19 @@ $(document).ready(function() {
 				ctx.stroke();
 				ctx.closePath();
 			};
+
+			var clock_face = new Image();
+			clock_face.onload = (function (ctx) {
+				return function() {
+					ctx.save();
+					ctx.globalAlpha = 0.4;
+					ctx.drawImage(clock_face, 54, 34, 91, 91);
+					ctx.restore();
+				};
+			})(ctx);
+			clock_face.src = '/static/clock.jpg';
 		};
+
 	};
 
 	$('#main_ul').remove();
