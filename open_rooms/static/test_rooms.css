@@ -63,3 +63,19 @@ canvas {
 	background: #FFF; 
 	overflow: auto; 
 }
+
+#big_button {
+	background: #56b661;
+	border-radius: 0.3em;
+	border-style: none;
+	border-width: 1px;
+	color: #fff;
+	padding: 7px 15px 7px 15px;
+	font-size: 15px;
+	text-align: center;
+}
+
+#big_button:hover {
+	background: #56c961;
+	color: #fff;
+}
