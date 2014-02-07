@@ -54,4 +54,12 @@ canvas {
 
 #flash {
 	font-size: 20px;
+	color: red;
+	margin-top: 15px;
+}
+
+#id_building-suggestions { 
+	border: 1px solid #999; 
+	background: #FFF; 
+	overflow: auto; 
 }
