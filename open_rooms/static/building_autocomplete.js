@@ -9,17 +9,20 @@ $(document).ready(function() {
 	});
 
 	$('#big_button').click(function(e) {
+		$('#flash').html('');
 		var buildingVal = ($('#id_building').val()).toUpperCase();
 		if (buildingVal) {
 			if (buildingNames.indexOf(buildingVal) == -1) {
-				$('#flash').html(buildingVal + ' is not a building on the UC Berkeley campus.');
+				var p = $('<p>').html(buildingVal + ' is not a building on the UC Berkeley campus.');
+				$('#flash').append(p);
 				e.preventDefault();
 			};
 		};
 		var dayVal = ($('#id_day').val()).toUpperCase();
 		if (dayVal) {
 			if (searchDays.indexOf(dayVal) == -1) {
-				$('#flash').html(dayVal + ' is not a weekday.');
+				var other_p = $('<p>').html(dayVal + ' is not a weekday.');
+				$('#flash').append(other_p);
 				e.preventDefault();
 			};
 		};
