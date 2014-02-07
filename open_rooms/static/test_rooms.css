@@ -79,3 +79,7 @@ canvas {
 	background: #56c961;
 	color: #fff;
 }
+
+.navbar-buffer {
+	margin-top: 100px;
+}
