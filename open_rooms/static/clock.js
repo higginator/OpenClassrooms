@@ -1,9 +1,4 @@
 $(document).ready(function() {
-	/*$("canvas").each(function() {
-		var ctx = $(this).getContext("2d");
-		ctx.font = "20px Georgia";
-		ctx.fillText("Dream Xtreme", 20, 20);
-	});*/
 	var handle_normal = true;
 	var input_time = $('#id_time').val();
 	var input_day = $('#id_day').val();
@@ -64,11 +59,8 @@ $(document).ready(function() {
 				ctx.fillText(day, 180, 80);
 				ctx.fillText(ap + 'M Clock', 180, 100);
 			};
-			//
-			//for the UL with the same name as the canvas
-			//grab the list items that represent that rooms times
-			//and draw an appropriate clock
-			//arc (x-center, y-center, radius, startAngle, endAngle, counterClockwise)
+
+
 			var items = $(all_buildings[i]).children();
 			for (var q=0; q < items.length; q++) {
 				var position = times.indexOf(parseInt($(items[q]).html()));

@@ -159,7 +159,7 @@ LOGGING = {
     }
 }
 
-# Parse database configuration from $DATABASE_URL
+# Use these for Ryan local
 #import dj_database_url
 #DATABASES = {}
 #DATABASES['default'] =  dj_database_url.config()

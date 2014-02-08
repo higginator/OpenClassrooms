@@ -36,6 +36,7 @@ h6 {
 	font-size: 40px;
 	margin-top: 100px;
 	margin-bottom: 30px;
+	text-shadow: 1px 1px #ccc;
 }
 
 #logo {
@@ -45,7 +46,8 @@ h6 {
 #suggestion {
 	margin-top: 20px;
 	font-style: italic;
-	font-size: 12px;
+	font-size: 14px;
+	text-shadow: 1px 1px #ccc;
 }
 
 canvas {
@@ -82,4 +84,20 @@ canvas {
 
 .navbar-buffer {
 	margin-top: 100px;
+}
+
+#green_color_tip {
+	color: green;
+	text-shadow: 1px 1px #ccc;
+}
+
+#red_color_tip {
+	color: #DC143C;
+	text-shadow: 1px 1px #ccc;
+}
+
+#data_note {
+	margin-top: 100px;
+	font-size: 14px;
+	font-style: italic;
 }

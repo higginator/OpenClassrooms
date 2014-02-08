@@ -7,7 +7,7 @@
 		<input type='submit' value='Go!' id='big_button'>
 	</form>
 </div>
-<ul id='main_ul'>
+<ul id='main_ul' hidden>
 	{% for room, times in rooms.items %}
 		<ul name='{{ room }}'>{{ room }}
 		{% for time in times %}
@@ -17,6 +17,8 @@
 	{% endfor %}
 </ul>
 <p id='suggestion'>Use any combination of inputs</p>
+<p id='green_color_tip'>Green = Open </p>
+<p id='red_color_tip'>Red = Occupied</p>
 <div id='flash'>
 </div>
 	<div id='canvii_container'>
